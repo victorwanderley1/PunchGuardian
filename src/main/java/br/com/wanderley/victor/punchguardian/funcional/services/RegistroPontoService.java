@@ -13,8 +13,8 @@ import java.util.List;
 
 @Service
 public class RegistroPontoService {
-    private RegistroPontoRepository pontoRepository;
-    private ProfissionalRepository profissionalRepository;
+    private final RegistroPontoRepository pontoRepository;
+    private final ProfissionalRepository profissionalRepository;
 
     @Autowired
     public RegistroPontoService(RegistroPontoRepository pontoRepository, ProfissionalRepository profissionalRepository){

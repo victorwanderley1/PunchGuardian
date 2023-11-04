@@ -15,7 +15,7 @@ public class PessoaService {
     final
     PessoaRepository repository;
     @Autowired
-    public PessoaService(PessoaRepository repository, PessoaMapper pessoaMapper) {
+    public PessoaService(PessoaRepository repository) {
         this.repository = repository;
     }
 

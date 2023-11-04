@@ -1,6 +1,5 @@
 package br.com.wanderley.victor.punchguardian.comum.models.dtos;
 
-import br.com.wanderley.victor.punchguardian.comum.models.entities.Pessoa;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

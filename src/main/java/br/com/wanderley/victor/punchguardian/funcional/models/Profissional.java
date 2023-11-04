@@ -1,7 +1,6 @@
 package br.com.wanderley.victor.punchguardian.funcional.models;
 
 import br.com.wanderley.victor.punchguardian.comum.models.entities.Pessoa;
-import br.com.wanderley.victor.punchguardian.funcional.models.Cargo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
