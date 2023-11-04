@@ -1,9 +1,6 @@
 package br.com.wanderley.victor.punchguardian.comum.models.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +16,8 @@ import java.time.LocalDate;
 public class Pessoa {
     @Id
     @Column(name = "id_pessoa")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_id_pessoa_seq")
+    @SequenceGenerator(name = "pessoa_id_pessoa_seq", sequenceName = "pessoa_id_pessoa_seq")
     private Integer id;
     @Column(name="nome")
     private String nome;
