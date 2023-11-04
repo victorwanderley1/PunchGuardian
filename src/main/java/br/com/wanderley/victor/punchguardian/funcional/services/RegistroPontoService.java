@@ -30,7 +30,7 @@ public class RegistroPontoService {
     }
 
     private TipoPonto getTipoPontoCorreto(Profissional profissional){
-        RegistroPonto ponto = pontoRepository.getFirstByProfissional(profissional);
+        RegistroPonto ponto = pontoRepository.getTopByProfissionalOrderByHoraDesc(profissional);
         if (ponto != null && ponto.getTipoPonto() == TipoPonto.ENTRADA)
             return TipoPonto.SAIDA;
         else
