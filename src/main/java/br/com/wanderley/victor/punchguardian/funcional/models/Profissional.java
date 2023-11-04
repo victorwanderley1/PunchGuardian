@@ -19,7 +19,7 @@ public class Profissional {
     @Id
     @Column(name = "id_profissional")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profissional_id_profissional_seq")
-    @SequenceGenerator(name = "profissional_id_profissional_seq", sequenceName = "profissional_id_profissional_seq")
+    @SequenceGenerator(name = "profissional_id_profissional_seq", sequenceName = "profissional_id_profissional_seq", allocationSize = 0)
     private Integer id;
     @ManyToOne(cascade=ALL)
     @JoinColumn(name = "id_cargo")

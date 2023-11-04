@@ -17,7 +17,7 @@ public class Pessoa {
     @Id
     @Column(name = "id_pessoa")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_id_pessoa_seq")
-    @SequenceGenerator(name = "pessoa_id_pessoa_seq", sequenceName = "pessoa_id_pessoa_seq")
+    @SequenceGenerator(name = "pessoa_id_pessoa_seq", sequenceName = "pessoa_id_pessoa_seq", allocationSize = 0)
     private Integer id;
     @Column(name="nome")
     private String nome;

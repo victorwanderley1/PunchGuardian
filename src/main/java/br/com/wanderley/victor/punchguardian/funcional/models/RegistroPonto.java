@@ -17,7 +17,7 @@ public class RegistroPonto {
     @Id
     @Column(name="id_ponto")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "registro_ponto_seq")
-    @SequenceGenerator(name = "registro_ponto_seq", sequenceName = "registro_ponto_id_ponto_seq", schema = "funcional")
+    @SequenceGenerator(name = "registro_ponto_seq", sequenceName = "registro_ponto_id_ponto_seq", schema = "funcional", allocationSize = 0)
     private Long id;
     @Column(name = "hora")
     private LocalDateTime hora;

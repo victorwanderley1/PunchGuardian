@@ -14,7 +14,7 @@ public class Cargo {
     @Id
     @Column(name = "id_cargo")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cargo_id_cargo_seq")
-    @SequenceGenerator(name = "cargo_id_cargo_seq", sequenceName = "cargo_id_cargo_seq")
+    @SequenceGenerator(name = "cargo_id_cargo_seq", sequenceName = "cargo_id_cargo_seq", allocationSize = 0)
     private Integer id;
     @Column(name = "nome")
     private String nome;
