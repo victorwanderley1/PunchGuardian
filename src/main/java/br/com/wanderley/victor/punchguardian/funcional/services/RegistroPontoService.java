@@ -24,9 +24,17 @@ public class RegistroPontoService {
 
     public RegistroPonto registrarPonto(final Integer idProfissional){
         Profissional profissional = this.profissionalRepository.findById(idProfissional).get();
-        RegistroPonto ponto = new RegistroPonto(profissional, LocalDateTime.now(), TipoPonto.ENTRADA);
+        RegistroPonto ponto = new RegistroPonto(profissional, LocalDateTime.now(), getTipoPontoCorreto(profissional));
         ponto = this.pontoRepository.save(ponto);
         return ponto;
+    }
+
+    private TipoPonto getTipoPontoCorreto(Profissional profissional){
+        RegistroPonto ponto = pontoRepository.getFirstByProfissional(profissional);
+        if (ponto != null && ponto.getTipoPonto() == TipoPonto.ENTRADA)
+            return TipoPonto.SAIDA;
+        else
+            return TipoPonto.ENTRADA;
     }
 
     public List<RegistroPonto> espelhoDePonto(final Integer idProfissional){
