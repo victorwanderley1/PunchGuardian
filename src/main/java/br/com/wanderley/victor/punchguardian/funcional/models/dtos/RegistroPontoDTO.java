@@ -1,0 +1,23 @@
+package br.com.wanderley.victor.punchguardian.funcional.models.dtos;
+
+import br.com.wanderley.victor.punchguardian.funcional.models.enums.TipoPonto;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class RegistroPontoDTO {
+    private Long id;
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm")
+    private LocalDateTime hora;
+    private TipoPonto tipoPonto;
+    private ProfissionalDTO profissional;
+    private Boolean correcao;
+
+}
