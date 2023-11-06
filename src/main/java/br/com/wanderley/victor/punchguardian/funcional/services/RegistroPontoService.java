@@ -1,5 +1,6 @@
 package br.com.wanderley.victor.punchguardian.funcional.services;
 
+import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
@@ -11,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegistroPontoService {
@@ -25,17 +26,13 @@ public class RegistroPontoService {
         this.profissionalRepository = profissionalRepository;
     }
 
-    public RegistroPontoDTO registrarPonto(final Integer idProfissional) {
-        Optional<Profissional> profissionalOptional = this.profissionalRepository.findById(idProfissional);
-        if (profissionalOptional.isPresent()) {
-            Profissional profissional = profissionalOptional.get();
-            RegistroPonto ponto = new RegistroPonto(profissional, LocalDateTime.now(), getTipoPontoCorreto(profissional));
-            return RegistroPontoMapper.toDTO(this.pontoRepository.save(ponto));
-        }else
-            throw new RuntimeException("Id do Profissional não existe");
+    public MensagemRetornoDTO registrarPonto(final Integer idProfissional) {
+        Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
+        RegistroPonto ponto = new RegistroPonto(profissional, LocalDateTime.now(), this.getProximoTipoPonto(profissional));
+        return this.gerarMensagemRegistroPonto(RegistroPontoMapper.toDTO(this.pontoRepository.save(ponto)));
     }
 
-    private TipoPonto getTipoPontoCorreto(Profissional profissional){
+    private TipoPonto getProximoTipoPonto(Profissional profissional){
         RegistroPonto ponto = pontoRepository.getTopByProfissionalOrderByHoraDesc(profissional);
         if (ponto != null && ponto.getTipoPonto() == TipoPonto.ENTRADA)
             return TipoPonto.SAIDA;
@@ -44,10 +41,23 @@ public class RegistroPontoService {
     }
 
     public List<RegistroPontoDTO> espelhoDePonto(final Integer idProfissional){
-        Optional<Profissional> profissionalOptional = this.profissionalRepository.findById(idProfissional);
-        if (profissionalOptional.isPresent()) {
-            return RegistroPontoMapper.toListDTO(this.pontoRepository.findByProfissional(profissionalOptional.get()));
-        }else
-            throw new RuntimeException(String.format("Id Profissional %s não existe", idProfissional));
+        Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
+        return RegistroPontoMapper.toListDTO(this.pontoRepository.findByProfissional(profissional));
+    }
+
+    private MensagemRetornoDTO gerarMensagem(final String mensagem){
+        return MensagemRetornoDTO.builder().mensagemRetorno(mensagem).build();
+    }
+
+    private MensagemRetornoDTO gerarMensagemRegistroPonto(final RegistroPontoDTO ponto){
+        String mensagem = "Ponto de " + ponto.getTipoPonto() + " do profissional " + ponto.getProfissional().getPessoa().getNome().concat(" ") +
+                "foi gerado com sucesso às ".concat(ponto.getHora().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))).concat(".");
+        return this.gerarMensagem(mensagem);
+    }
+
+    private Profissional seProfissionalNaoExisteThrowException(final Integer id){
+        return this.profissionalRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(String.format("Id Profissional %s não existe", id)));
     }
 }
