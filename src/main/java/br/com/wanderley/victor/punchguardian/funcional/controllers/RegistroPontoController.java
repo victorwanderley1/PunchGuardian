@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ponto")
+@CrossOrigin
 public class RegistroPontoController {
     @Autowired
     RegistroPontoService pontoService;

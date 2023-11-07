@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RegistroPontoRepository extends JpaRepository<RegistroPonto, Long> {
 
-    List<RegistroPonto> findByProfissional(Profissional profissional);
+    List<RegistroPonto> findByProfissionalOrderByHoraAsc(Profissional profissional);
     RegistroPonto getTopByProfissionalOrderByHoraDesc(Profissional profissional);
 }
