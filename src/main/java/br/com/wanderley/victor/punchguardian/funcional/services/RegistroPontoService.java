@@ -29,7 +29,7 @@ public class RegistroPontoService {
     public MensagemRetornoDTO registrarPonto(final Integer idProfissional) {
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
         RegistroPonto ponto = new RegistroPonto(profissional, LocalDateTime.now(), this.getProximoTipoPonto(profissional));
-        return this.gerarMensagemRegistroPonto(RegistroPontoMapper.toDTO(this.pontoRepository.save(ponto)));
+        return RegistroPontoServiceAux.getInstance().gerarMensagemRegistroPonto(RegistroPontoMapper.toDTO(this.pontoRepository.save(ponto)));
     }
 
     private TipoPonto getProximoTipoPonto(Profissional profissional){
@@ -42,17 +42,7 @@ public class RegistroPontoService {
 
     public List<RegistroPontoDTO> espelhoDePonto(final Integer idProfissional){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
-        return RegistroPontoMapper.toListDTO(this.pontoRepository.findByProfissional(profissional));
-    }
-
-    private MensagemRetornoDTO gerarMensagem(final String mensagem){
-        return MensagemRetornoDTO.builder().mensagemRetorno(mensagem).build();
-    }
-
-    private MensagemRetornoDTO gerarMensagemRegistroPonto(final RegistroPontoDTO ponto){
-        String mensagem = "Ponto de " + ponto.getTipoPonto() + " do profissional " + ponto.getProfissional().getPessoa().getNome().concat(" ") +
-                "foi gerado com sucesso às ".concat(ponto.getHora().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))).concat(".");
-        return this.gerarMensagem(mensagem);
+        return RegistroPontoMapper.toListDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
     }
 
     private Profissional seProfissionalNaoExisteThrowException(final Integer id){
