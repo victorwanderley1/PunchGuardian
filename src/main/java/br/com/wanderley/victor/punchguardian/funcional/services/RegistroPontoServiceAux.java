@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class RegistroPontoServiceAux {
@@ -38,7 +39,7 @@ public class RegistroPontoServiceAux {
 
     public MensagemRetornoDTO gerarMensagemRegistroPonto(final RegistroPontoDTO ponto){
         String mensagem = "Ponto de " + ponto.getTipoPonto() + " do profissional " + ponto.getProfissional().getPessoa().getNome().concat(" ") +
-                "foi gerado com sucesso às ".concat(ponto.getHora().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))).concat(".");
+                "foi gerado com sucesso às ".concat(ponto.getHora().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy", Locale.US))).concat(".");
         return this.gerarMensagem(mensagem);
     }
 
