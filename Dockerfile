@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM openjdk:17
 LABEL authors="victor.wanderley"
 WORKDIR /app
 COPY ${JAR_FILE} application.jar
