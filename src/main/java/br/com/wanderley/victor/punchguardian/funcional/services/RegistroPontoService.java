@@ -4,7 +4,10 @@ import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDT
 import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.enums.TipoPonto;
+import br.com.wanderley.victor.punchguardian.funcional.models.mappers.EspelhoPontoMapper;
 import br.com.wanderley.victor.punchguardian.funcional.models.mappers.RegistroPontoMapper;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.ProfissionalRepository;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.RegistroPontoRepository;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RegistroPontoService {
@@ -40,9 +44,9 @@ public class RegistroPontoService {
             return TipoPonto.ENTRADA;
     }
 
-    public List<RegistroPontoDTO> espelhoDePonto(final Integer idProfissional){
+    public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
-        return RegistroPontoMapper.toListDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
+        return EspelhoPontoMapper.toDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
     }
 
     private Profissional seProfissionalNaoExisteThrowException(final Integer id){

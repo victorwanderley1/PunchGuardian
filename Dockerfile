@@ -1,6 +1,6 @@
 FROM openjdk:17
 LABEL authors="victor.wanderley"
 WORKDIR /app
-COPY ${JAR_FILE} application.jar
+COPY /build/libs/PunchGuardian-1.2.1-snapshot.jar PunchGuardian.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/application.jar"]
+ENTRYPOINT ["java","-jar","PunchGuardian.jar"]
