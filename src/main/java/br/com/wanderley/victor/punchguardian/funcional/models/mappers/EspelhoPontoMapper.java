@@ -2,23 +2,22 @@ package br.com.wanderley.victor.punchguardian.funcional.models.mappers;
 
 import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
-import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.DiaRegistradoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.ProfissionalEspelhoPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class EspelhoPontoMapper {
-    private static final ModelMapper MODEL_MAPPER = new ModelMapper();
 
     public static EspelhoPontoDTO toDTO(List<RegistroPonto> pontos){
         Profissional profissional = pontos.get(0).getProfissional();
@@ -26,21 +25,44 @@ public class EspelhoPontoMapper {
                 .profissional(
                         new ProfissionalEspelhoPontoDTO(profissional.getPessoa().getNome(),
                                 CargoMapper.toDTO(profissional.getCargo())))
-                .pontos(separarPontosPorData(pontos)).build();
+                .dias(separarPontosPorData(pontos)).build();
     }
 
-    private static Map<String, List<RegistroPontoEspelhoDTO>> separarPontosPorData(List<RegistroPonto> pontos){
-        Map<String, List<RegistroPontoEspelhoDTO>> pontosDias = new HashMap<>();
+    private static List<DiaRegistradoDTO> separarPontosPorData(List<RegistroPonto> pontos){
+        List<DiaRegistradoDTO> dias = new ArrayList<>();
+        Map<String, Integer> diasJaRegistrados = new HashMap<>();
+
         for(RegistroPonto ponto : pontos){
             String data = ponto.getHora().format(DateTimeFormatter.ISO_LOCAL_DATE);
-            if(!pontosDias.containsKey(data)){
+
+            if(!diasJaRegistrados.containsKey(data)){
                 List<RegistroPontoEspelhoDTO> pontosDia = new ArrayList<>();
                 pontosDia.add(RegistroPontoEspelhoMapper.toDTO(ponto));
-                pontosDias.put(data, pontosDia);
+                dias.add(new DiaRegistradoDTO(ponto.getHora().toLocalDate(), pontosDia, LocalTime.MIN));
+                diasJaRegistrados.put(data,diasJaRegistrados.size());
             } else {
-              pontosDias.get(data).add(RegistroPontoEspelhoMapper.toDTO(ponto));
+                DiaRegistradoDTO dia = dias.get(diasJaRegistrados.get(data));
+                dia.getPontos().add(RegistroPontoEspelhoMapper.toDTO(ponto));
             }
+            for(DiaRegistradoDTO dia: dias){
+                dia.setTotalHorasRegistradas(somaHorasDia(dia));
+            }
+
+
         }
-        return pontosDias;
+        return dias;
+    }
+
+    private static LocalTime somaHorasDia(DiaRegistradoDTO dia){
+        List<RegistroPontoEspelhoDTO> pontos = dia.getPontos();
+        if(pontos.size()>1) {
+            Duration primeiraJornada = Duration.between(pontos.get(0).getHora(), pontos.get(1).getHora());
+            if(pontos.size()==4){
+                Duration segundaJornada = Duration.between(pontos.get(2).getHora(), pontos.get(3).getHora());
+                return LocalTime.MIN.plus(primeiraJornada.plus(segundaJornada));
+            }
+            return LocalTime.MIN.plus(primeiraJornada);
+        }
+        return LocalTime.MIN;
     }
 }
