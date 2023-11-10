@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Data
@@ -15,5 +14,5 @@ import java.util.Map;
 @NoArgsConstructor
 public class EspelhoPontoDTO {
     private ProfissionalEspelhoPontoDTO profissional;
-    private Map<String, List<RegistroPontoEspelhoDTO>> pontos;
+    private List<DiaRegistradoDTO> dias;
 }
