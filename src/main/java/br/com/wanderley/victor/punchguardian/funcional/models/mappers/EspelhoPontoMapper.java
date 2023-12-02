@@ -6,6 +6,7 @@ import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espe
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.ProfissionalEspelhoPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.services.RegistroPontoServiceAux;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -21,7 +22,7 @@ public class EspelhoPontoMapper {
 
     public static EspelhoPontoDTO toDTO(List<RegistroPonto> pontos){
         Profissional profissional = pontos.get(0).getProfissional();
-        return EspelhoPontoDTO.builder()
+        EspelhoPontoDTO espelho = EspelhoPontoDTO.builder()
                 .profissional(
                         new ProfissionalEspelhoPontoDTO(profissional.getPessoa().getNome(),
                                 CargoMapper.toDTO(profissional.getCargo())))
@@ -64,5 +65,7 @@ public class EspelhoPontoMapper {
             return LocalTime.MIN.plus(primeiraJornada);
         }
         return LocalTime.MIN;
+                .dias(RegistroPontoServiceAux.getInstance().separarPontosPorData(pontos)).build();
+        return espelho;
     }
 }
