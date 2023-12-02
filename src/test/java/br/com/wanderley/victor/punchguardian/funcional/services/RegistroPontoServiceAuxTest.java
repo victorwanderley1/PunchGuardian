@@ -5,7 +5,6 @@ import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espe
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.enums.TipoPonto;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

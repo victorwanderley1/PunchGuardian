@@ -1,7 +1,6 @@
 package br.com.wanderley.victor.punchguardian.funcional.services;
 
 import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDTO;
-import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.DiaRegistradoDTO;
@@ -23,20 +22,6 @@ public class RegistroPontoServiceAux {
             registroPontoServiceAux = new RegistroPontoServiceAux();
         }
         return registroPontoServiceAux;
-    }
-
-    public MensagemRetornoDTO gerarEspelhoDePonto(List<RegistroPontoDTO> pontos){
-        StringBuilder stringBuilder = new StringBuilder("Espelho de pontos: "
-                .concat(pontos.get(0).getProfissional().getPessoa().getNome()));
-        int i = 0;
-        for(RegistroPontoDTO ponto : pontos){
-            i++;
-            stringBuilder.append("\n ".concat(String.valueOf(i)).concat(". "));
-            stringBuilder.append(ponto.getHora().format(DateTimeFormatter.ofPattern("HH:mm:ss dd:MM:yyyy")));
-            stringBuilder.append(" ");
-            stringBuilder.append(ponto.getTipoPonto());
-        }
-        return this.gerarMensagem(stringBuilder.toString());
     }
 
     private MensagemRetornoDTO gerarMensagem(final String mensagem){
