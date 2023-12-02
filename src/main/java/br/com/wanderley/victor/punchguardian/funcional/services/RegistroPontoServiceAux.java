@@ -44,7 +44,7 @@ public class RegistroPontoServiceAux {
     /**
      * Método utilizado para somar as horas de duração entre os registros de ponto do dia
      * São considerados somente pontos pares, ou seja, que houveram entrada e saída.
-     * @param diaRegistradoDTO
+     * @param diaRegistradoDTO DTO do dia que terá as horas somadas
      * @return Duração entre registros dos pontos.
      */
     public Duration somarHorasDia(DiaRegistradoDTO diaRegistradoDTO){
