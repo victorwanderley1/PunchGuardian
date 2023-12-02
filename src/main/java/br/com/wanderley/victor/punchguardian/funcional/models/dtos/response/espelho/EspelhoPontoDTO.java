@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -15,4 +16,5 @@ import java.util.List;
 public class EspelhoPontoDTO {
     private ProfissionalEspelhoPontoDTO profissional;
     private List<DiaRegistradoDTO> dias;
+    private Duration totalHorasTrabalhadas;
 }
