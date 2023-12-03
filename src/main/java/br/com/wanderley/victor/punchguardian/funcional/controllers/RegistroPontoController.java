@@ -22,7 +22,7 @@ public class RegistroPontoController {
         return pontoService.espelhoDePonto(idProfissional);
     }
 
-    @GetMapping("")
+    @GetMapping("/periodo")
     public ResponseEntity<EspelhoPontoDTO> espelhoPontoPeriodo(@RequestParam Integer idProfissional,
                                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
                                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim){
