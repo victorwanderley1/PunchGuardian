@@ -3,23 +3,18 @@ package br.com.wanderley.victor.punchguardian.funcional.services;
 import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
-import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
-import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.enums.TipoPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.mappers.EspelhoPontoMapper;
 import br.com.wanderley.victor.punchguardian.funcional.models.mappers.RegistroPontoMapper;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.ProfissionalRepository;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.RegistroPontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RegistroPontoService {

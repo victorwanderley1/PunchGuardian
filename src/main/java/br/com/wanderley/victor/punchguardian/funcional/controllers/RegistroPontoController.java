@@ -1,9 +1,7 @@
 package br.com.wanderley.victor.punchguardian.funcional.controllers;
 
 import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDTO;
-import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
-import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.services.RegistroPontoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,9 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/ponto")

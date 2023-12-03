@@ -4,7 +4,6 @@ import br.com.wanderley.victor.punchguardian.funcional.models.enums.TipoPonto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.springframework.jdbc.datasource.init.UncategorizedScriptException;
 
 import java.time.LocalDateTime;
 
