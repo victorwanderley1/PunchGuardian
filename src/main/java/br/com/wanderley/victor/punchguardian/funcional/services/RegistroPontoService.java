@@ -12,8 +12,10 @@ import br.com.wanderley.victor.punchguardian.funcional.models.mappers.RegistroPo
 import br.com.wanderley.victor.punchguardian.funcional.repositories.ProfissionalRepository;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.RegistroPontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -47,6 +49,14 @@ public class RegistroPontoService {
     public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
         return EspelhoPontoMapper.toDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
+    }
+
+    public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional,
+                                          final LocalDate dtInicio,
+                                          final LocalDate dtFim){
+        Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
+        List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(profissional, dtInicio.atStartOfDay(), dtFim.plusDays(1L).atStartOfDay());
+        return EspelhoPontoMapper.toDTO(pontos);
     }
 
     private Profissional seProfissionalNaoExisteThrowException(final Integer id){

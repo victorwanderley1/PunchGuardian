@@ -6,9 +6,12 @@ import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espe
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.RegistroPontoEspelhoDTO;
 import br.com.wanderley.victor.punchguardian.funcional.services.RegistroPontoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,13 @@ public class RegistroPontoController {
     @GetMapping("/{idProfissional}")
     public EspelhoPontoDTO espelhoDePonto(@PathVariable Integer idProfissional){
         return pontoService.espelhoDePonto(idProfissional);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<EspelhoPontoDTO> espelhoPontoPeriodo(@RequestParam Integer idProfissional,
+                                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+                                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim){
+        return ResponseEntity.ok(this.pontoService.espelhoDePonto(idProfissional, dataInicio, dataFim));
     }
 
     @PostMapping("/{idProfissional}")
