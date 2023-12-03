@@ -50,7 +50,10 @@ public class RegistroPontoService {
                                           final LocalDate dtInicio,
                                           final LocalDate dtFim){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
-        List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(profissional, dtInicio.atStartOfDay(), dtFim.plusDays(1L).atStartOfDay());
+        List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(profissional,
+                dtInicio.atStartOfDay(), dtFim.plusDays(1L).atStartOfDay());
+        if(pontos.isEmpty())
+            return new EspelhoPontoDTO();
         return EspelhoPontoMapper.toDTO(pontos);
     }
 
