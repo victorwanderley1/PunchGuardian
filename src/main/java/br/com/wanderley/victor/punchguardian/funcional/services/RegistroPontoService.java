@@ -43,7 +43,8 @@ public class RegistroPontoService {
 
     public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
-        return EspelhoPontoMapper.toDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
+        List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional);
+        return EspelhoPontoMapper.toDTO(pontos.isEmpty() ? List.of(new RegistroPonto(profissional, null, null)) : pontos);
     }
 
     public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional,

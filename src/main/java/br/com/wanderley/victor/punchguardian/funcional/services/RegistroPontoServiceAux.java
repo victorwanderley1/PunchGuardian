@@ -65,6 +65,8 @@ public class RegistroPontoServiceAux {
         Map<String, Integer> diasJaRegistrados = new HashMap<>();
 
         for(RegistroPonto ponto : pontos){
+            if(ponto.getHora() == null)
+                break;
             String data = ponto.getHora().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
             if(!diasJaRegistrados.containsKey(data)){
