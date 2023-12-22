@@ -100,5 +100,31 @@ public class RegistroPontoServiceTest {
                 "A data final é anterior a data inicial");
     }
 
+    @Test
+    void testEspelhoDePontoComIntervaloRetornoEspelho() {
+        List<RegistroPonto> pontos = List.of(new RegistroPonto(profissional, LocalDateTime.now().minusHours(1), TipoPonto.ENTRADA),
+                new RegistroPonto(profissional, LocalDateTime.now(), TipoPonto.SAIDA));
+        when(profissionalRepository.findById(any())).thenReturn(Optional.of(profissional));
+        when(pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(eq(profissional), any(LocalDateTime.class),
+                any(LocalDateTime.class))).thenReturn(pontos);
+
+        EspelhoPontoDTO espelho = pontoService.espelhoDePonto(profissional.getId(), LocalDate.now().minusDays(1), LocalDate.now());
+        assertNotNull(espelho);
+        assertEquals(Duration.ofHours(1).toHours(),espelho.getTotalHorasTrabalhadas().toHours());
+    }
+
+    @Test
+    void testEspelhoDePontoComIntervaloMesmoDiaRetornoEspelho() {
+        List<RegistroPonto> pontos = List.of(new RegistroPonto(profissional, LocalDateTime.now().minusHours(1), TipoPonto.ENTRADA),
+                new RegistroPonto(profissional, LocalDateTime.now(), TipoPonto.SAIDA));
+        when(profissionalRepository.findById(any())).thenReturn(Optional.of(profissional));
+        when(pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(eq(profissional), any(LocalDateTime.class),
+                any(LocalDateTime.class))).thenReturn(pontos);
+
+        EspelhoPontoDTO espelho = pontoService.espelhoDePonto(profissional.getId(), LocalDate.now(), LocalDate.now());
+        assertNotNull(espelho);
+        assertEquals(Duration.ofHours(1).toHours(),espelho.getTotalHorasTrabalhadas().toHours());
+    }
+
 
 }
