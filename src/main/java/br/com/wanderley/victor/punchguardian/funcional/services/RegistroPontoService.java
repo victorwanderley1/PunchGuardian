@@ -1,6 +1,7 @@
 package br.com.wanderley.victor.punchguardian.funcional.services;
 
 import br.com.wanderley.victor.punchguardian.comum.models.dtos.MensagemRetornoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.exceptions.EspelhoPontoException;
 import br.com.wanderley.victor.punchguardian.funcional.models.Profissional;
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.response.espelho.EspelhoPontoDTO;
@@ -9,6 +10,7 @@ import br.com.wanderley.victor.punchguardian.funcional.models.mappers.EspelhoPon
 import br.com.wanderley.victor.punchguardian.funcional.models.mappers.RegistroPontoMapper;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.ProfissionalRepository;
 import br.com.wanderley.victor.punchguardian.funcional.repositories.RegistroPontoRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,13 +45,16 @@ public class RegistroPontoService {
 
     public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
-        return EspelhoPontoMapper.toDTO(this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional));
+        List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalOrderByHoraAsc(profissional);
+        return EspelhoPontoMapper.toDTO(pontos.isEmpty() ? List.of(new RegistroPonto(profissional, null, null)) : pontos);
     }
 
     public EspelhoPontoDTO espelhoDePonto(final Integer idProfissional,
                                           final LocalDate dtInicio,
                                           final LocalDate dtFim){
         Profissional profissional = this.seProfissionalNaoExisteThrowException(idProfissional);
+        if(dtFim.isBefore(dtInicio))
+            throw new EspelhoPontoException("A data final é anterior a data inicial");
         List<RegistroPonto> pontos = this.pontoRepository.findByProfissionalAndHoraBetweenOrderByHoraAsc(profissional,
                 dtInicio.atStartOfDay(), dtFim.plusDays(1L).atStartOfDay());
         if(pontos.isEmpty())
@@ -60,6 +65,6 @@ public class RegistroPontoService {
     private Profissional seProfissionalNaoExisteThrowException(final Integer id){
         return this.profissionalRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(String.format("Id Profissional %s não existe", id)));
+                        new ObjectNotFoundException(Profissional.class, String.format("Id Profissional %s não existe", id)));
     }
 }
