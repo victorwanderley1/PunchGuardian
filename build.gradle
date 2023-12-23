@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'br.com.wanderley.victor'
-version = '1.4.0'
+version = '1.4.1-snapshot'
 
 java {
     sourceCompatibility = '17'
