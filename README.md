@@ -4,8 +4,8 @@
 
 ### A fazeres:
 1. [x] ~~Criar funcionalidade de marcação de pontos~~
-2. [ ] Criar funcionalidade de verificar pontos marcados
+2. [x] ~~Criar funcionalidade de verificar pontos marcados~~
 3. [ ] Criar funcionalidade de verificar quantas horas úteis restam
 4. [ ] Implementar cálculo para abater feriados das horas úteis
 5. [ ] Implementar regra para ajuste de ponto
-6. [ ] Implementar testes para as classes funcionais
+6. [x] ~~Implementar testes para as classes funcionais~~
