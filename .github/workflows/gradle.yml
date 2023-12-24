@@ -60,5 +60,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: victorwanderley/punch-guardian-backend-desenv:latest
+        tags: victorwanderley/punch-guardian-backend:latest
 
