@@ -15,8 +15,6 @@ on:
 
 permissions:
   contents: read
-env:
-  DATE: $(date +%s)
 
 jobs:
   build:
@@ -36,7 +34,7 @@ jobs:
         arguments: build
     - uses: actions/upload-artifact@v3
       with:
-        name: Package-$DATE-desenv
+        name: Package-desenv
         path: build/libs
   create-docker-image:
     needs: build
@@ -46,8 +44,20 @@ jobs:
     - name: Download a single artifact
       uses: actions/download-artifact@v3
       with:
-        name: Package-$DATE-desenv
+        name: Package-desenv
         path: build/libs
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag punch-guardian-api:$DATE-desenv
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: victorwanderley/punch-guardian-backend-desenv:latest
 
