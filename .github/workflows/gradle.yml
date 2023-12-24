@@ -45,6 +45,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: Package-$(date +%s)-desenv
+        path: build/libs
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag punch-guardian-api:$(date +%s)-desenv
 
