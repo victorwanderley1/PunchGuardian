@@ -36,7 +36,7 @@ jobs:
         arguments: build
     - uses: actions/upload-artifact@v3
       with:
-        name: Package-desenv
+        name: Package-$DATE-desenv
         path: build/libs
   create-docker-image:
     needs: build
