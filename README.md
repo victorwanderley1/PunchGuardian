@@ -3,6 +3,20 @@ O Punch Guardian é um gerenciador de registros de marcação de pontos no ambie
 
 Este projeto visa oferecer uma solução eficaz para essa questão, proporcionando uma marcação de pontos mais fácil e eficiente, contribuindo para um equilíbrio mais saudável entre trabalho e demais atividades. Vale ressaltar que o Punch Guardian está em constante desenvolvimento, e sua contribuição e feedback são sempre bem-vindos!
 
+[![Java CI with Gradle and Docker](https://github.com/victorwanderley1/PunchGuardian/actions/workflows/gradle.yml/badge.svg)](https://github.com/victorwanderley1/PunchGuardian/actions/workflows/gradle.yml)
+
+## Variáveis de ambiente
+Configurar as variáveis para conexão com o banco de dados:
+- SPRING_DATASOURCE_PASSWORD
+- SPRING_DATASOURCE_USERNAME
+- SPRING_DATASOURCE_URL
+
+Também definir a Time Zone para que sejam padronizados os horários das marcações
+- TZ
+
+## Execução:
+
+`docker run -d -p 8080:8080 -e TZ=America/Recife -e SPRING_DATASOURCE_PASSWORD=postgres -e SPRING_DATASOURCE_USERNAME=postgres -e SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/PunchGuardianProducao --restart=on-failure victorwanderley/punch-guardian-backend:latest`
 
 ### A fazeres:
 1. [x] ~~Criar funcionalidade de marcação de pontos~~
