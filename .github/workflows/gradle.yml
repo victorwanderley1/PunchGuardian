@@ -15,6 +15,8 @@ on:
 
 permissions:
   contents: read
+env:
+  DATE: $(date +%s)
 
 jobs:
   build:
@@ -34,7 +36,7 @@ jobs:
         arguments: build
     - uses: actions/upload-artifact@v3
       with:
-        name: Package-$(date +%s)-desenv
+        name: Package-desenv
         path: build/libs
   create-docker-image:
     needs: build
@@ -44,8 +46,8 @@ jobs:
     - name: Download a single artifact
       uses: actions/download-artifact@v3
       with:
-        name: Package-$(date +%s)-desenv
+        name: Package-$DATE-desenv
         path: build/libs
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag punch-guardian-api:$(date +%s)-desenv
+      run: docker build . --file Dockerfile --tag punch-guardian-api:$DATE-desenv
 
