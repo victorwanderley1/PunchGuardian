@@ -28,5 +28,16 @@ public class Usuario {
     @Column(name = "senha")
     private String senha;
     @ManyToMany
+    @JoinTable(schema = "comum", name = "usuario_papeis", joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_papel"))
     private List<Papel> papeis;
+
+    public Usuario(Integer idPessoa, String username, String senha, List<Papel> papeis, LocalDate dataCadastro) {
+        this.idPessoa = idPessoa;
+        this.username = username;
+        this.senha = senha;
+        this.papeis = papeis;
+        this.dataCadastro = dataCadastro;
+        this.ativo = true;
+    }
 }
