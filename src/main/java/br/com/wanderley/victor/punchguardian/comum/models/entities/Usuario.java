@@ -27,7 +27,7 @@ public class Usuario {
     private String username;
     @Column(name = "senha")
     private String senha;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "comum", name = "usuario_papeis", joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_papel"))
     private List<Papel> papeis;

@@ -21,8 +21,6 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(usuarioOptional.orElse(new Usuario()).getPapeis().contains(new Papel(1, "Admin", "Admin")))
-            return List.of(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("USER"));
         return usuarioOptional.orElse(new Usuario()).getPapeis();
     }
 

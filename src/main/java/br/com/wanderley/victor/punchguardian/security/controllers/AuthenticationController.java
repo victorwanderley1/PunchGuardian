@@ -5,7 +5,10 @@ import br.com.wanderley.victor.punchguardian.comum.models.entities.Usuario;
 import br.com.wanderley.victor.punchguardian.comum.repositories.PapelRepository;
 import br.com.wanderley.victor.punchguardian.comum.repositories.UsuarioRepository;
 import br.com.wanderley.victor.punchguardian.security.controllers.dtos.AuthenticationDTO;
+import br.com.wanderley.victor.punchguardian.security.controllers.dtos.LoginResponseDTO;
 import br.com.wanderley.victor.punchguardian.security.controllers.dtos.RegisterDTO;
+import br.com.wanderley.victor.punchguardian.security.data.UsuarioDetails;
+import br.com.wanderley.victor.punchguardian.security.services.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,11 +28,13 @@ import java.util.List;
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UsuarioRepository usuarioRepository;
+    private final TokenService tokenService;
 
     private final PapelRepository papelRepository;
-    public AuthenticationController(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository, PapelRepository papelRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository, TokenService tokenService, PapelRepository papelRepository) {
         this.authenticationManager = authenticationManager;
         this.usuarioRepository = usuarioRepository;
+        this.tokenService = tokenService;
         this.papelRepository = papelRepository;
     }
 
@@ -38,7 +43,9 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((UsuarioDetails) auth.getPrincipal());
+
+        return ResponseEntity.ok().body(new LoginResponseDTO(token));
     }
 
     @PostMapping("/registrar")

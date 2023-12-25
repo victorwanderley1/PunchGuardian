@@ -23,6 +23,6 @@ public class Papel implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getNome();
+        return "ROLE_"+getNome();
     }
 }
