@@ -1,22 +1,28 @@
 package br.com.wanderley.victor.punchguardian.security.data;
 
+import br.com.wanderley.victor.punchguardian.comum.models.entities.Papel;
 import br.com.wanderley.victor.punchguardian.comum.models.entities.Usuario;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class UsuarioDetails implements UserDetails {
 
     private final Optional<Usuario> usuarioOptional;
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public UsuarioDetails(Optional<Usuario> usuarioOptional) {
         this.usuarioOptional = usuarioOptional;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(usuarioOptional.orElse(new Usuario()).getPapeis().contains(new Papel(1, "Admin", "Admin")))
+            return List.of(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("USER"));
         return usuarioOptional.orElse(new Usuario()).getPapeis();
     }
 
@@ -37,7 +43,7 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !usuarioOptional.orElse(new Usuario()).getAtivo();
+        return usuarioOptional.orElse(new Usuario()).getAtivo();
     }
 
     @Override
