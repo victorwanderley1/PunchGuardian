@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PapelRepository extends JpaRepository<Papel, Integer> {
 
-    Optional<List<Papel>> findByNome(String nome);
+    Optional<Papel> findByNome(String nome);
 }
