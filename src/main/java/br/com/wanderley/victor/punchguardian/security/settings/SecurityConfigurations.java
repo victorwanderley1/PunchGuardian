@@ -31,6 +31,14 @@ public class SecurityConfigurations {
     @Value("${api.security.allow.credentials}")
     private boolean allowCredentials;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     public SecurityConfigurations(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
@@ -41,6 +49,7 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers("/auth/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/pessoas").hasRole("ADMIN")
                         .requestMatchers("/ponto/*").hasRole("USER")
