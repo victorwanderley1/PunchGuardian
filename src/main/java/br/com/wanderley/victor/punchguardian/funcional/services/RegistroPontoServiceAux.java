@@ -10,6 +10,7 @@ import br.com.wanderley.victor.punchguardian.funcional.models.mappers.RegistroPo
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -84,6 +85,10 @@ public class RegistroPontoServiceAux {
             }
         }
         return dias;
+    }
+
+    public static Boolean isPontoRetroativo(RegistroPonto ponto){
+        return ponto.getHora().isBefore(LocalDateTime.now());
     }
 
 }
