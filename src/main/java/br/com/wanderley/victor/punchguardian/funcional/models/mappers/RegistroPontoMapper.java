@@ -2,6 +2,7 @@ package br.com.wanderley.victor.punchguardian.funcional.models.mappers;
 
 import br.com.wanderley.victor.punchguardian.funcional.models.RegistroPonto;
 import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoDTO;
+import br.com.wanderley.victor.punchguardian.funcional.models.dtos.RegistroPontoRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,10 @@ public class RegistroPontoMapper {
     }
 
     public static RegistroPonto toEntity(final RegistroPontoDTO pontoDTO){
+        return MODEL_MAPPER.map(pontoDTO, RegistroPonto.class);
+    }
+
+    public static RegistroPonto toEntity(final RegistroPontoRequestDTO pontoDTO){
         return MODEL_MAPPER.map(pontoDTO, RegistroPonto.class);
     }
 
